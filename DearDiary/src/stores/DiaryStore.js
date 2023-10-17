@@ -24,5 +24,23 @@ export const useDiaryStore = defineStore("diaryStore", {
         totalCount : (state) => { //I am using arrow function so I will not use this anymore, change to this to state
             return state.diary.length
         }
+    },
+    actions:{
+        newDiary(diary){
+            this.diary.push(diary)
+
+        },
+        toggleFav(id){
+    
+            const diary = this.diary.find(diary => diary.id===id )
+            diary.isFav = !diary.isFav
+
+        },
+        deleteDiary(id){
+            this.diary = this.diary.filter(diary => {
+                return diary.id !== id
+
+            })
+        }
     }
 })

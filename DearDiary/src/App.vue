@@ -7,6 +7,7 @@
   </header>
   <main>
     <div class="container">
+    <new-diary></new-diary>
     <div class="data-area">
     <p v-if="filter==='all'">Total diary : {{diaryStore.totalCount}}</p>
     <p  v-if="filter==='favs'" >Total diary : {{diaryStore.favCount}}</p>
@@ -35,11 +36,12 @@
 import {ref} from 'vue';
 import diaryDetails from "./components/diary-details.vue";
 import { useDiaryStore } from "./stores/DiaryStore"; //import the store
-
+import newDiary from "./components/new-diary.vue";
 
 export default {
   components: {
     "diary-details": diaryDetails,
+    "new-diary": newDiary
   },
   setup() {
     const diaryStore = useDiaryStore();
