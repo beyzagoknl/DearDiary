@@ -7,30 +7,46 @@
   </header>
   <main>
     <div class="container">
-      <div class="diary-list" v-for="diary in diaryStore.diary"> 
+    <div class="data-area">
+    <p v-if="filter==='all'">Total diary : {{diaryStore.totalCount}}</p>
+    <p  v-if="filter==='favs'" >Total diary : {{diaryStore.favCount}}</p>
 
-      <diary-details :diary="diary"></diary-details>
-       
+    <div>
+    <button @click="filter='all'">All Diaries</button>
+     <button @click="filter='favs'">Favourite Diaries</button>
+
     </div>
     </div>
+    
+      <div class="diary-list" v-for="diary in diaryStore.diary" v-if="filter==='all'">
+        <diary-details :diary="diary"></diary-details>
+      </div>
 
+    <div class="diary-list" v-for="diary in diaryStore.favs"  v-if="filter==='favs'">
+        <diary-details :diary="diary"></diary-details>
+      </div>
+ 
+            
+    </div>
   </main>
 </template>
 
 <script>
-import diaryDetails from './components/diary-details.vue';
+import {ref} from 'vue';
+import diaryDetails from "./components/diary-details.vue";
 import { useDiaryStore } from "./stores/DiaryStore"; //import the store
 
+
 export default {
-  components:{
-    "diary-details" : diaryDetails
+  components: {
+    "diary-details": diaryDetails,
   },
   setup() {
     const diaryStore = useDiaryStore();
-    return { diaryStore }; //define store
+    const filter = ref('all')
+    return { diaryStore,filter}; //define store
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
