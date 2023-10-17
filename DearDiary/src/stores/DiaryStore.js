@@ -2,11 +2,8 @@ import {defineStore} from 'pinia'
 
 export const useDiaryStore = defineStore("diaryStore", {
     state : () => ({
-        diary: [
-            {id:1 ,diary : "Today is nice day", date: "11.06.2023" , isFav : false},
-            {id:2 ,diary : "I start the pinia", date: "10.02.2023" , isFav : true}
-
-        ],
+        diary: [],
+        loading : false
     }),
     getters: {
         favs(){
@@ -26,21 +23,44 @@ export const useDiaryStore = defineStore("diaryStore", {
         }
     },
     actions:{
-        newDiary(diary){
+        async getDiary () {
+            this.loading = true
+            const res = await fetch ("http://localhost:3000/diary")
+            const data = await res.json()
+            this.diary = data
+            this.loading = false
+        },
+        async newDiary(diary){
             this.diary.push(diary)
+            
+            const res = await fetch ("http://localhost:3000/diary",{
+                method: 'POST',
+                headers : {'Content-Type': 'application/json'},
+                body: JSON.stringify(diary)
+            }).catch((err)=>{console.log(err)})
 
         },
-        toggleFav(id){
-    
+        async toggleFav(id){
             const diary = this.diary.find(diary => diary.id===id )
-            diary.isFav = !diary.isFav
-
+            diary.isFav = !diary.isFav; 
+    
+            const res = await fetch ("http://localhost:3000/diary/" + id,{
+                method: 'PATCH',
+                headers : {'Content-Type': 'application/json'},
+                body: JSON.stringify({isFav : diary.isFav})
+            }).catch((err)=>{console.log(err)})
         },
-        deleteDiary(id){
+        async deleteDiary(id){
             this.diary = this.diary.filter(diary => {
                 return diary.id !== id
 
             })
+            const res = await fetch (`http://localhost:3000/diary/${id}`,{
+                method: 'Delete',
+ 
+            }).catch((err)=>{console.log(err)})
+
+
         }
     }
 })

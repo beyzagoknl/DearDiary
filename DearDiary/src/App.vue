@@ -9,8 +9,8 @@
     <div class="container">
     <new-diary></new-diary>
     <div class="data-area">
-    <p v-if="filter==='all'">Total diary : {{diaryStore.totalCount}}</p>
-    <p  v-if="filter==='favs'" >Total diary : {{diaryStore.favCount}}</p>
+    <p v-if="filter==='all'">Total diary : {{totalCount}}</p>
+    <p  v-if="filter==='favs'" >Total diary : {{favCount}}</p>
 
     <div>
     <button @click="filter='all'">All Diaries</button>
@@ -19,15 +19,16 @@
     </div>
     </div>
     
-      <div class="diary-list" v-for="diary in diaryStore.diary" v-if="filter==='all'">
+      <div class="diary-list" v-for="diary in diary" v-if="filter==='all'">
         <diary-details :diary="diary"></diary-details>
       </div>
 
-    <div class="diary-list" v-for="diary in diaryStore.favs"  v-if="filter==='favs'">
+    <div class="diary-list" v-for="diary in favs"  v-if="filter==='favs'">
         <diary-details :diary="diary"></diary-details>
       </div>
- 
-            
+
+        <p><button @click= "diaryStore.$reset">Reset</button></p>
+
     </div>
   </main>
 </template>
@@ -37,6 +38,7 @@ import {ref} from 'vue';
 import diaryDetails from "./components/diary-details.vue";
 import { useDiaryStore } from "./stores/DiaryStore"; //import the store
 import newDiary from "./components/new-diary.vue";
+import {storeToRefs} from 'pinia'
 
 export default {
   components: {
@@ -45,8 +47,11 @@ export default {
   },
   setup() {
     const diaryStore = useDiaryStore();
+    const { diary, loading, favs, totalCount, favCount} =storeToRefs(diaryStore)
     const filter = ref('all')
-    return { diaryStore,filter}; //define store
+    diaryStore.getDiary()
+  
+    return { diaryStore,filter, diary, loading, favs, totalCount, favCount}; //define store
   },
 };
 </script>

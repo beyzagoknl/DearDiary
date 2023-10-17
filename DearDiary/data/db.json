@@ -1,0 +1,22 @@
+{
+  "diary": [
+    {
+      "id": 2,
+      "diary": "deneme 2",
+      "date": "11.6.2023",
+      "isFav": true
+    },
+    {
+      "id": 3,
+      "diary": "hello",
+      "date": "17.10.2023",
+      "isFav": true
+    },
+    {
+      "id": 4,
+      "diary": "hello",
+      "date": "17.10.2023",
+      "isFav": true
+    }
+  ]
+}

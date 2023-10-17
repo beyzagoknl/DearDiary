@@ -31,7 +31,7 @@ import { useDiaryStore } from '../stores/DiaryStore'
             const sendForm = () => {
                 if (newDiary.value.length > 0){
                     diaryStore.newDiary({
-                        id: diaryStore.diary.length,
+                        id: diaryStore.diary.length+1,
                         diary: newDiary.value,
                         date : currentDate(),
                         isFav: true
